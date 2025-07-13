@@ -113,6 +113,7 @@ func main() {
 
 	defer cancel2()
 	if err := e.Shutdown(ctx2); err != nil {
+		log.Println("QQQ ", err)
 	}
 
 }
