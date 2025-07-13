@@ -52,25 +52,36 @@ jobs:
 
       - name: Test
         run: |
-          ./gophermarttest \
-            -test.v -test.run=^TestGophermart$ \
-            -gophermart-binary-path=cmd/gophermart/gophermart \
-            -gophermart-host=localhost \
-            -gophermart-port=8080 \
-            -gophermart-database-uri="postgresql://postgres:postgres@postgres/praktikum?sslmode=disable" \
-            -accrual-binary-path=cmd/accrual/accrual_linux_amd64 \
-            -accrual-host=localhost \
-            -accrual-port=$(random unused-port) \
-            -accrual-database-uri="postgresql://postgres:postgres@postgres/praktikum?sslmode=disable"
+#          ./gophermarttest \
+#            -test.v -test.run=^TestGophermart$ \
+#            -gophermart-binary-path=cmd/gophermart/gophermart \
+#            -gophermart-host=localhost \
+#            -gophermart-port=8080 \
+#            -gophermart-database-uri="postgresql://postgres:postgres@postgres/praktikum?sslmode=disable" \
+#            -accrual-binary-path=cmd/accrual/accrual_linux_amd64 \
+#            -accrual-host=localhost \
+#            -accrual-port=$(random unused-port) \
+#            -accrual-database-uri="postgresql://postgres:postgres@postgres/praktikum?sslmode=disable"
+#
 
+         ./gophermarttest \
+               -test.v -test.run=^TestGophermart$ \
+               -gophermart-binary-path=cmd/gophermart/gophermart \
+               -gophermart-host=localhost \
+               -gophermart-port=8899 \
+               -gophermart-database-uri="postgresql://postgres:postgres@postgres/praktikum?sslmode=disable" \
+               -accrual-binary-path=cmd/accrual/accrual_linux_amd64 \
+               -accrual-host=localhost \
+               -accrual-port=$(random unused-port) \
+               -accrual-database-uri="postgresql://postgres:postgres@postgres/praktikum?sslmode=disable"
 
-          ./gophermarttest \
-            -test.v -test.run=^TestGophermart$ \
-            -gophermart-binary-path=cmd/gophermart/gophermart \
-            -gophermart-host=127.0.0.1 \
-            -gophermart-port=8899 \
-            -gophermart-database-uri="postgresql://admin:secret@192.168.1.179:5433/mydb?sslmode=disable" \
-            -accrual-binary-path=cmd/accrual/accrual_linux_amd64 \
-            -accrual-host=localhost \
-            -accrual-port=9099 \
-            -accrual-database-uri="postgresql://admin:secret@192.168.1.179:5433/mydb?sslmode=disable"
+#          ./gophermarttest \
+#            -test.v -test.run=^TestGophermart$ \
+#            -gophermart-binary-path=cmd/gophermart/gophermart \
+#            -gophermart-host=127.0.0.1 \
+#            -gophermart-port=8899 \
+#            -gophermart-database-uri="postgresql://admin:secret@192.168.1.179:5433/mydb?sslmode=disable" \
+#            -accrual-binary-path=cmd/accrual/accrual_linux_amd64 \
+#            -accrual-host=localhost \
+#            -accrual-port=9099 \
+#            -accrual-database-uri="postgresql://admin:secret@192.168.1.179:5433/mydb?sslmode=disable"
