@@ -13,7 +13,7 @@ import (
 var (
 	authCookieName = "auth_token"
 	userIDKey      = "userID"
-	user_id        = "user_id"
+	userID         = "user_id"
 )
 
 func AuthMiddleware(jwtManager *jwt.Manager) echo.MiddlewareFunc {
@@ -52,7 +52,7 @@ func AuthMiddleware(jwtManager *jwt.Manager) echo.MiddlewareFunc {
 			}
 			var userID string
 
-			switch v := claims[user_id].(type) {
+			switch v := claims[userID].(type) {
 			case string:
 				userID = v
 			case float64:
@@ -64,7 +64,7 @@ func AuthMiddleware(jwtManager *jwt.Manager) echo.MiddlewareFunc {
 					Str("path", path).
 					Str("method", method).
 					Str("ip", ip).
-					Str("type", fmt.Sprintf("%T", claims[user_id])).
+					Str("type", fmt.Sprintf("%T", claims[userID])).
 					Interface("claims", claims).
 					Msg("Invalid userID type in token claims")
 

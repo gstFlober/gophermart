@@ -11,8 +11,7 @@ import (
 )
 
 const (
-	POSTGRES_DB = "POSTGRES_DB"
-	FILE_DB     = "FILE_DB"
+	PostgresDB = "POSTGRES_DB"
 )
 
 type Config struct {
@@ -136,7 +135,7 @@ func setDefaults(v *viper.Viper) {
 
 	v.SetDefault("auth.jwt_secret", "supersecretkey")
 
-	v.SetDefault("database.type", POSTGRES_DB)
+	v.SetDefault("database.type", PostgresDB)
 	v.SetDefault("database.file.path", "./data/app.db")
 
 	v.SetDefault("database.postgres.uri", "postgresql://admin:secret@127.0.0.1:5433/mydb?sslmode=disable")

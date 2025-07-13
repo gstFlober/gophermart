@@ -17,7 +17,7 @@ func NewPostgresDB(cfg config.DatabaseConfig) (*gorm.DB, error) {
 		Str("user", cfg.PostgresDatabase.User).
 		Msg("Connecting to PostgreSQL database")
 
-	maskedDSN := fmt.Sprintf("postgres://%s:****@%s:%d/%s?sslmode=%s",
+	maskedDSN := fmt.Sprintf("postgres://%s:****@%s:%s/%s?sslmode=%s",
 		cfg.PostgresDatabase.User,
 		cfg.PostgresDatabase.Host,
 		cfg.PostgresDatabase.Port,
