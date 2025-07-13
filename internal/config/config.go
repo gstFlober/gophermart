@@ -84,9 +84,10 @@ func loadConfig() (*Config, error) {
 	gophemartPort := flag.String("gophermart-port", "", "Server port")
 	gophemartDatabaseURI := flag.String("gophermart-database-uri", "", "Database URI")
 	jwtSecret := flag.String("jwt-secret", "", "JWT secret key")
-	accrualAddr := flag.String("accrual", "", "Accrual system address") // Новый флаг для accrual
-
+	accrualHost := flag.String("accrual-host", "", "Accrual system address")
+	accrualPort := flag.String("accrual-port", "", "Accrual system address")
 	flag.Parse()
+	accrualAddr := *accrualHost + ":" + *accrualPort
 
 	v := viper.New()
 	v.AutomaticEnv()
@@ -125,9 +126,9 @@ func loadConfig() (*Config, error) {
 	if *jwtSecret != "" {
 		v.Set("auth.jwt_secret", *jwtSecret)
 	}
-	if *accrualAddr != "" { // Обработка нового флага
-		v.Set("accural", *accrualAddr)
-	}
+	//if *accrualAddr != "" { // Обработка нового флага
+	//	v.Set("accural", *accrualAddr)
+	//}
 
 	// Автоматическое обновление адреса сервера
 	v.Set("server.address", net.JoinHostPort(
@@ -140,6 +141,7 @@ func loadConfig() (*Config, error) {
 		return nil, err
 	}
 
+	cfg.Accural = accrualAddr
 	return &cfg, nil
 }
 
