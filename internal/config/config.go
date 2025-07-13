@@ -84,8 +84,8 @@ func loadConfig() (*Config, error) {
 	gophemartPort := flag.String("gophermart-port", "", "Server port")
 	gophemartDatabaseURI := flag.String("gophermart-database-uri", "", "Database URI")
 	jwtSecret := flag.String("jwt-secret", "", "JWT secret key")
-	accrualHost := flag.String("accrual-host", "", "Accrual system address")
-	accrualPort := flag.String("accrual-port", "", "Accrual system address")
+	accrualHost := flag.String("accrual-host", "localhost", "Accrual system address")
+	accrualPort := flag.String("accrual-port", "15555", "Accrual system address")
 	flag.Parse()
 
 	v := viper.New()
