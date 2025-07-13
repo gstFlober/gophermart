@@ -138,9 +138,9 @@ func setDefaults(v *viper.Viper) {
 	v.SetDefault("database.type", PostgresDB)
 	v.SetDefault("database.file.path", "./data/app.db")
 
-	v.SetDefault("database.postgres.uri", "postgresql://admin:secret@127.0.0.1:5433/mydb?sslmode=disable")
+	v.SetDefault("database.postgres.uri", "postgresql://admin:secret@127.0.0.1:5432/mydb?sslmode=disable")
 	v.SetDefault("database.postgres.host", "localhost")
-	v.SetDefault("database.postgres.port", "5433")
+	v.SetDefault("database.postgres.port", "5432")
 	v.SetDefault("database.postgres.user", "admin")
 	v.SetDefault("database.postgres.password", "secret")
 	v.SetDefault("database.postgres.dbname", "mydb")

@@ -16,8 +16,7 @@ database:
   retry_delay: 1s
   postgres:
     host: "localhost"
-    port: "5433"
-    uri: "postgresql://admin:secret@127.0.0.1:5432/mydb?sslmode=disable"
+    port: "5432"
     user: "admin"
     password: "secret"
     dbname: "mydb"

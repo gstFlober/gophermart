@@ -16,7 +16,7 @@ database:
   retry_delay: 1s
   postgres:
     host: "localhost"
-    port: "5433"
+    port: "5432"
     user: "admin"
     password: "secret"
     dbname: "mydb"
@@ -33,4 +33,3 @@ logger:
   output: "stdout"
   with_caller: true
 
-accural: "http://localhost:9099"
