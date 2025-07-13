@@ -114,7 +114,7 @@ func loadConfig() (*Config, error) {
 	}
 
 	if err := v.ReadInConfig(); err == nil {
-
+		return nil, err
 	}
 
 	setDefaults(v)
