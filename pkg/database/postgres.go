@@ -17,17 +17,6 @@ func NewPostgresDB(cfg config.DatabaseConfig) (*gorm.DB, error) {
 		Str("user", cfg.PostgresDatabase.User).
 		Msg("Connecting to PostgreSQL database")
 
-	maskedDSN := fmt.Sprintf("postgres://%s:****@%s:%s/%s?sslmode=%s",
-		cfg.PostgresDatabase.User,
-		cfg.PostgresDatabase.Host,
-		cfg.PostgresDatabase.Port,
-		cfg.PostgresDatabase.DBName,
-		cfg.PostgresDatabase.SSLMode)
-
-	logger.Debug().
-		Str("dsn", maskedDSN).
-		Msg("Database connection string")
-
 	start := time.Now()
 	db, err := gorm.Open(postgres.Open(cfg.PostgresDatabase.URI), &gorm.Config{
 		TranslateError: true,
@@ -37,7 +26,6 @@ func NewPostgresDB(cfg config.DatabaseConfig) (*gorm.DB, error) {
 	if err != nil {
 		logger.Error().
 			Err(err).
-			Str("dsn", maskedDSN).
 			Dur("duration_ms", duration).
 			Msg("Failed to connect to PostgreSQL")
 		return nil, fmt.Errorf("failed to connect using URI: %w", err)

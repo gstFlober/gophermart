@@ -1,5 +1,5 @@
 server:
-  address: ":8899"
+  address: ":8080"
   shutdown_timeout: 30s
   read_timeout: 15s
   write_timeout: 15s
@@ -15,12 +15,12 @@ database:
   connection_retries: 5
   retry_delay: 1s
   postgres:
-    host: "localhost"
+    host: "postgresql"
     port: "5432"
     uri: "postgresql://postgres:postgres@postgres/praktikum?sslmode=disable"
-    user: "admin"
-    password: "secret"
-    dbname: "mydb"
+    user: "postgres"
+    password: "postgres"
+    dbname: "praktikum"
     sslmode: "disable"
     max_open_conns: 30
     max_idle_conns: 10
