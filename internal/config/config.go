@@ -129,8 +129,8 @@ func loadConfig() (*Config, error) {
 
 func setDefaults(v *viper.Viper) {
 	v.SetDefault("server.host", "localhost")
-	v.SetDefault("server.port", "8080")
-	v.SetDefault("server.address", ":8080")
+	v.SetDefault("server.port", "8899")
+	v.SetDefault("server.address", ":8899")
 	v.SetDefault("server.shutdown_timeout", 15*time.Second)
 
 	v.SetDefault("auth.jwt_secret", "supersecretkey")

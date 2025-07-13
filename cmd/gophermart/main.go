@@ -47,6 +47,7 @@ func main() {
 	jwtManager := jwt.NewManager(cfg.Auth.JWTSecret, 30*24*time.Hour)
 	accrualClient := accrual.NewClient(cfg.Accural)
 
+	log.Println("cfg.Accural = ", cfg.Accural)
 	authService := service.NewAuthService(repo.User, cfg.Auth.JWTSecret)
 	orderService := service.NewOrderService(repo.Order, repo.User, accrualClient)
 	balanceService := service.NewBalanceService(repo.User, repo.Order, repo.Withdrawal)
@@ -59,7 +60,7 @@ func main() {
 
 	e.Use(middleware.Logger())
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins:     []string{"*"},
+		AllowOrigins:     []string{"http://localhost", "*"},
 		AllowMethods:     []string{n.MethodGet, n.MethodPost, n.MethodPut, n.MethodDelete},
 		AllowHeaders:     []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept, echo.HeaderAuthorization, echo.HeaderCookie},
 		AllowCredentials: true,
