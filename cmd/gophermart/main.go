@@ -59,10 +59,10 @@ func main() {
 
 	e.Use(middleware.Logger())
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins:     []string{"http://localhost", "*"}, // Ваш фронтенд-адрес
+		AllowOrigins:     []string{"*"},
 		AllowMethods:     []string{n.MethodGet, n.MethodPost, n.MethodPut, n.MethodDelete},
 		AllowHeaders:     []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept, echo.HeaderAuthorization, echo.HeaderCookie},
-		AllowCredentials: true, // Разрешаем передачу кук
+		AllowCredentials: true,
 
 		MaxAge: 86400,
 	}))
@@ -83,24 +83,19 @@ func main() {
 		log.Printf("Registered: %-6s %s", route.Method, route.Path)
 	}
 
-	////////
-
 	orderProcessor := worker.NewOrderProcessor(
 		repo.Order,
 		repo.User,
 		accrualClient,
 	)
 
-	// Контекст для управления жизненным циклом
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	// Запуск воркера
 	go orderProcessor.Run(ctx, 5*time.Second)
 
 	go func() {
 		if err := e.Start(cfg.Server.Address); err != nil {
-
 			log.Println("QQQ ", err)
 		}
 	}()
