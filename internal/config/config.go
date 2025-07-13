@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"github.com/spf13/viper"
+	"net"
 	"os"
 	"strings"
 	"sync"
@@ -77,12 +78,13 @@ func MustLoad() *Config {
 	})
 	return configInstance
 }
-
 func loadConfig() (*Config, error) {
+	// Объявление флагов
 	gophemartHost := flag.String("gophermart-host", "", "Server host")
 	gophemartPort := flag.String("gophermart-port", "", "Server port")
 	gophemartDatabaseURI := flag.String("gophermart-database-uri", "", "Database URI")
 	jwtSecret := flag.String("jwt-secret", "", "JWT secret key")
+	accrualAddr := flag.String("accrual", "", "Accrual system address") // Новый флаг для accrual
 
 	flag.Parse()
 
@@ -90,6 +92,27 @@ func loadConfig() (*Config, error) {
 	v.AutomaticEnv()
 	v.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
 
+	// 1. Установка значений по умолчанию
+	setDefaults(v)
+
+	// 2. Загрузка конфигурационного файла
+	configPath := os.Getenv("CONFIG_PATH")
+	if configPath != "" {
+		v.SetConfigFile(configPath)
+	} else {
+		v.SetConfigName("config")
+		v.AddConfigPath(".")
+		v.AddConfigPath("./configs")
+		v.AddConfigPath("/etc/gophermart")
+	}
+
+	if err := v.ReadInConfig(); err != nil {
+		if _, ok := err.(viper.ConfigFileNotFoundError); !ok {
+			return nil, err
+		}
+	}
+
+	// 3. Применение аргументов командной строки (наивысший приоритет)
 	if *gophemartHost != "" {
 		v.Set("server.host", *gophemartHost)
 	}
@@ -102,26 +125,18 @@ func loadConfig() (*Config, error) {
 	if *jwtSecret != "" {
 		v.Set("auth.jwt_secret", *jwtSecret)
 	}
-
-	configPath := os.Getenv("CONFIG_PATH")
-	if configPath != "" {
-		v.SetConfigFile(configPath)
-	} else {
-		v.SetConfigName("config")
-		v.AddConfigPath(".")
-		v.AddConfigPath("./configs")
-		v.AddConfigPath("/etc/gophermart")
+	if *accrualAddr != "" { // Обработка нового флага
+		v.Set("accural", *accrualAddr)
 	}
 
-	if err := v.ReadInConfig(); err == nil {
-		return nil, err
-	}
-
-	setDefaults(v)
+	// Автоматическое обновление адреса сервера
+	v.Set("server.address", net.JoinHostPort(
+		v.GetString("server.host"),
+		v.GetString("server.port"),
+	))
 
 	var cfg Config
 	if err := v.Unmarshal(&cfg); err != nil {
-		fmt.Println("Error: ", err)
 		return nil, err
 	}
 
