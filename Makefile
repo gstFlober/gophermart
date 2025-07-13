@@ -1,3 +1,3 @@
 dev:
 	@echo "Запуск сервера..."
-	go build -o cmd/gophermart/gophermart ./cmd/gophermart/main.go
+	go build -o ./gophermart ./cmd/gophermart/main.go
