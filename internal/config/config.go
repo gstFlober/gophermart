@@ -87,7 +87,7 @@ func loadConfig() (*Config, error) {
 	accrualHost := flag.String("accrual-host", "", "Accrual system address")
 	accrualPort := flag.String("accrual-port", "", "Accrual system address")
 	flag.Parse()
-	accrualAddr := *accrualHost + ":" + *accrualPort
+	accrualAddr := "http://" + *accrualHost + ":" + *accrualPort
 
 	v := viper.New()
 	v.AutomaticEnv()
