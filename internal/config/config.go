@@ -121,6 +121,7 @@ func loadConfig() (*Config, error) {
 
 	var cfg Config
 	if err := v.Unmarshal(&cfg); err != nil {
+		fmt.Println("Error: ", err)
 		return nil, err
 	}
 

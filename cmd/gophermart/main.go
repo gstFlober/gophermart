@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 	"github.com/rs/zerolog"
@@ -27,6 +28,9 @@ func main() {
 	logger.Init(zerolog.DebugLevel)
 
 	cfg := config.MustLoad()
+	fmt.Println("cfg: =", cfg)
+	fmt.Println("cfg: =", cfg.Auth)
+	fmt.Println("cfg: =", cfg.Database)
 	db, err := database.NewPostgresDB(cfg.Database)
 	if err != nil {
 		return
