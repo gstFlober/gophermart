@@ -56,7 +56,7 @@ func (s *AuthService) Register(ctx context.Context, login, password string) (*en
 		return nil, err
 	}
 	user := &entity.User{
-		ID:           uint(uuid.New().ID()), // Генерация UUID
+		ID:           uint(uuid.New().ID()),
 		Login:        login,
 		PasswordHash: string(hashedPassword),
 	}

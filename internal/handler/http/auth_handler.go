@@ -140,7 +140,7 @@ func (h *AuthHandler) setAuthCookie(c echo.Context, token string) {
 	cookie.Value = token
 	cookie.Path = "/"
 	cookie.HttpOnly = true
-	cookie.Secure = false // Для разработки - в продакшене должно быть true
+	cookie.Secure = false
 	cookie.SameSite = http.SameSiteLaxMode
 	cookie.Expires = time.Now().Add(24 * time.Hour)
 

@@ -26,7 +26,6 @@ func TestTokenFlow(t *testing.T) {
 func TestInvalidToken(t *testing.T) {
 	manager := NewManager("secret", time.Minute)
 
-	// Неверный секрет
 	invalidManager := NewManager("different-secret", time.Minute)
 
 	userID := uint(100)

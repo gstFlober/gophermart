@@ -47,7 +47,6 @@ func main() {
 	jwtManager := jwt.NewManager(cfg.Auth.JWTSecret, 30*24*time.Hour)
 	accrualClient := accrual.NewClient(cfg.Accural)
 
-	log.Println("cfg.Accural = ", cfg.Accural)
 	authService := service.NewAuthService(repo.User, cfg.Auth.JWTSecret)
 	orderService := service.NewOrderService(repo.Order, repo.User, accrualClient)
 	balanceService := service.NewBalanceService(repo.User, repo.Order, repo.Withdrawal)
@@ -97,7 +96,7 @@ func main() {
 
 	go func() {
 		if err := e.Start(cfg.Server.Address); err != nil {
-			log.Println("QQQ ", err)
+			log.Println("Err ", err)
 		}
 	}()
 	quit := make(chan os.Signal, 1)
@@ -105,11 +104,15 @@ func main() {
 
 	<-quit
 
-	ctx2, cancel2 := context.WithTimeout(context.Background(), cfg.Server.ShutdownTimeout)
+	ctx2, cancel2 := context.WithTimeout(ctx, cfg.Server.ShutdownTimeout)
 
 	defer cancel2()
 	if err := e.Shutdown(ctx2); err != nil {
-		log.Println("QQQ ", err)
+		logger.Error().Err(err).Msg("Failed to gracefully shutdown server")
+	} else {
+		logger.Info().Msg("Server stopped gracefully")
 	}
+	cancel()
 
+	logger.Info().Msg("Application stopped")
 }

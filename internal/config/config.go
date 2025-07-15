@@ -51,7 +51,7 @@ type PostgresDatabaseConfig struct {
 	MaxOpenConns int           `mapstructure:"max_open_conns"`
 	MaxIdleConns int           `mapstructure:"max_idle_conns"`
 	MaxLifetime  time.Duration `mapstructure:"max_lifetime"`
-	LogLevel     string        `mapstructure:"log_level"` // silent, error, warn, info
+	LogLevel     string        `mapstructure:"log_level"`
 }
 
 type AuthConfig struct {
@@ -65,7 +65,6 @@ type LoggerConfig struct {
 var (
 	configInstance *Config
 	configOnce     sync.Once
-	configMutex    sync.RWMutex
 )
 
 func MustLoad() *Config {
@@ -79,7 +78,6 @@ func MustLoad() *Config {
 	return configInstance
 }
 func loadConfig() (*Config, error) {
-	// Объявление флагов
 	gophemartHost := flag.String("gophermart-host", "", "Server host")
 	gophemartPort := flag.String("gophermart-port", "", "Server port")
 	gophemartDatabaseURI := flag.String("gophermart-database-uri", "", "Database URI")
@@ -92,10 +90,8 @@ func loadConfig() (*Config, error) {
 	v.AutomaticEnv()
 	v.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
 
-	// 1. Установка значений по умолчанию
 	setDefaults(v)
 
-	// 2. Загрузка конфигурационного файла
 	configPath := os.Getenv("CONFIG_PATH")
 	if configPath != "" {
 		v.SetConfigFile(configPath)
@@ -112,7 +108,6 @@ func loadConfig() (*Config, error) {
 		}
 	}
 
-	// 3. Применение аргументов командной строки (наивысший приоритет)
 	if *gophemartHost != "" {
 		v.Set("server.host", *gophemartHost)
 	}
@@ -125,11 +120,6 @@ func loadConfig() (*Config, error) {
 	if *jwtSecret != "" {
 		v.Set("auth.jwt_secret", *jwtSecret)
 	}
-	//if *accrualAddr != "" { // Обработка нового флага
-	//	v.Set("accural", *accrualAddr)
-	//}
-
-	// Автоматическое обновление адреса сервера
 	v.Set("server.address", net.JoinHostPort(
 		v.GetString("server.host"),
 		v.GetString("server.port"),
@@ -141,7 +131,6 @@ func loadConfig() (*Config, error) {
 	}
 	accrualAddr := "http://" + *accrualHost + ":" + *accrualPort
 
-	fmt.Println("WWWWWWWWWWWWWWWWWWW = ", accrualAddr)
 	cfg.Accural = accrualAddr
 	return &cfg, nil
 }
@@ -157,12 +146,12 @@ func setDefaults(v *viper.Viper) {
 	v.SetDefault("database.type", PostgresDB)
 	v.SetDefault("database.file.path", "./data/app.db")
 
-	v.SetDefault("database.postgres.uri", "postgresql://admin:secret@127.0.0.1:5432/mydb?sslmode=disable")
-	v.SetDefault("database.postgres.host", "localhost")
+	v.SetDefault("database.postgres.uri", "postgresql://postgres:postgres@postgres/praktikum?sslmode=disable")
+	v.SetDefault("database.postgres.host", "postgres")
 	v.SetDefault("database.postgres.port", "5432")
-	v.SetDefault("database.postgres.user", "admin")
-	v.SetDefault("database.postgres.password", "secret")
-	v.SetDefault("database.postgres.dbname", "mydb")
+	v.SetDefault("database.postgres.user", "postgres")
+	v.SetDefault("database.postgres.password", "postgres")
+	v.SetDefault("database.postgres.dbname", "praktikum")
 	v.SetDefault("database.postgres.sslmode", "disable")
 	v.SetDefault("database.postgres.max_open_conns", 25)
 	v.SetDefault("database.postgres.max_idle_conns", 5)

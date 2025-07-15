@@ -34,7 +34,6 @@ type OrderInfo struct {
 func (c *Client) GetOrderInfo(ctx context.Context, orderNumber string) (*OrderInfo, error) {
 	url := fmt.Sprintf("%s/api/orders/%s", c.baseURL, orderNumber)
 
-	// Логирование начала запроса
 	logger.Debug().
 		Str("method", "Client.GetOrderInfo").
 		Str("url", url).

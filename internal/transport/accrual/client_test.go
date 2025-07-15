@@ -38,17 +38,13 @@ func TestClient_GetOrderInfo(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			// Запускаем тестовый сервер
 			server := httptest.NewServer(tt.handler)
 			defer server.Close()
 
-			// Создаем клиент с адресом тестового сервера
 			client := NewClient(server.URL)
 
-			// Вызываем тестируемый метод
 			result, err := client.GetOrderInfo(context.Background(), "123")
 
-			// Проверяем ошибки
 			if tt.expectedError != nil {
 				if err == nil {
 					t.Fatal("expected error, got nil")
@@ -74,7 +70,6 @@ func TestClient_GetOrderInfo(t *testing.T) {
 				}
 			}
 
-			// Проверяем результат
 			if result != nil || tt.expectedResult != nil {
 				if result == nil || tt.expectedResult == nil {
 					t.Errorf("result mismatch: expected %v, got %v", tt.expectedResult, result)
@@ -87,16 +82,14 @@ func TestClient_GetOrderInfo(t *testing.T) {
 }
 
 func TestClient_Timeout(t *testing.T) {
-	// Создаем сервер с искусственной задержкой
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		time.Sleep(20 * time.Second) // Превышаем таймаут клиента
+		time.Sleep(20 * time.Second)
 		w.WriteHeader(http.StatusOK)
 	}))
 	defer server.Close()
 
 	client := NewClient(server.URL)
 
-	// Создаем контекст с таймаутом (меньшим чем у сервера)
 	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Millisecond)
 	defer cancel()
 

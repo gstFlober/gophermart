@@ -80,7 +80,6 @@ func (h *BalanceHandler) Withdraw(c echo.Context) error {
 
 	ctx := c.Request().Context()
 
-	// Вызываем сервис для списания средств
 	err := h.balanceService.Withdraw(ctx, userID, req.Order, req.Sum)
 	if err != nil {
 		switch {
