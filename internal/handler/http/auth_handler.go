@@ -86,7 +86,6 @@ func (h *AuthHandler) Login(c echo.Context) error {
 		Str("handler", "Login").
 		Str("ip", c.RealIP()).
 		Msg("Login request received")
-
 	req := new(dto.LoginRequest)
 	if err := c.Bind(req); err != nil {
 		logger.Error().
@@ -109,7 +108,6 @@ func (h *AuthHandler) Login(c echo.Context) error {
 				Msg("Invalid login credentials")
 			return echo.NewHTTPError(http.StatusUnauthorized, "invalid credentials")
 		}
-
 		logger.Error().
 			Err(err).
 			Str("login", req.Login).

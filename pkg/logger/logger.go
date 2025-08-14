@@ -90,11 +90,3 @@ func Warn() *zerolog.Event {
 func Error() *zerolog.Event {
 	return WithCaller().Error()
 }
-
-func Fatal() *zerolog.Event {
-	return WithCaller().Fatal()
-}
-
-func Panic() *zerolog.Event {
-	return WithCaller().Panic()
-}

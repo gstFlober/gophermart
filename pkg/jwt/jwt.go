@@ -25,10 +25,8 @@ func (m *Manager) GenerateToken(userID uint) (string, error) {
 		"exp":     time.Now().Add(m.tokenDuration).Unix(),
 		"iat":     time.Now().Unix(),
 	}
-
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	return token.SignedString(m.secretKey)
-
 }
 
 func (m *Manager) ValidateToken(tokenString string) (jwt.MapClaims, error) {

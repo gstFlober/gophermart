@@ -22,7 +22,6 @@ func NewPostgresDB(cfg config.DatabaseConfig) (*gorm.DB, error) {
 		TranslateError: true,
 	})
 	duration := time.Since(start)
-
 	if err != nil {
 		logger.Error().
 			Err(err).
@@ -30,7 +29,6 @@ func NewPostgresDB(cfg config.DatabaseConfig) (*gorm.DB, error) {
 			Msg("Failed to connect to PostgreSQL")
 		return nil, fmt.Errorf("failed to connect using URI: %w", err)
 	}
-
 	logger.Info().
 		Dur("duration_ms", duration).
 		Msg("PostgreSQL connection established successfully")

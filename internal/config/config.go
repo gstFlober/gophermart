@@ -85,11 +85,9 @@ func loadConfig() (*Config, error) {
 	accrualHost := flag.String("accrual-host", "localhost", "Accrual system address")
 	accrualPort := flag.String("accrual-port", "15555", "Accrual system address")
 	flag.Parse()
-
 	v := viper.New()
 	v.AutomaticEnv()
 	v.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
-
 	setDefaults(v)
 
 	configPath := os.Getenv("CONFIG_PATH")
