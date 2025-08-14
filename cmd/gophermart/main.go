@@ -23,7 +23,6 @@ import (
 )
 
 func main() {
-
 	logger.Init(zerolog.DebugLevel)
 
 	cfg := config.MustLoad()
@@ -35,7 +34,6 @@ func main() {
 		sqlDB, _ := db.DB()
 		sqlDB.Close()
 	}()
-
 	if err := database.Migrate(db); err != nil {
 		logger.Error().
 			Err(err).
